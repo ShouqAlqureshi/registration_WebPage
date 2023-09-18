@@ -26,7 +26,7 @@
         
         <div class="input-group">
             <label for="password">Password:</label>
-            <input type="text" name="password" id="password" required>
+            <input type="password" minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" id="password" required>
         </div>
         
         <div class="btn-group">
