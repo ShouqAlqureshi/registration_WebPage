@@ -10,16 +10,16 @@ const db= {
     };
     const  authentication = async ({username, password}) => {
         const connection = await mysql.createConnection(db);
-        const sql = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
-        const [results, ] = await connection.execute(sql);
+        const sql = `SELECT * FROM users WHERE username = ? AND password = ?`;
+        const [results, ] = await connection.execute(sql, [username, password]);
         return results;
       }
 
       const signup = async ({username, password}) => {
         const connection = await mysql.createConnection(db);
-        const sql = `INSERT INTO users (username, password) VALUES ('${username}', '${password}')`;
+        const sql = `INSERT INTO users (username, password) VALUES (?, ?)`;
         try {
-        await connection.execute(sql);
+        await connection.execute(sql, [username, password]);
         }
         catch(err){
           return false;
