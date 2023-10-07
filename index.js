@@ -1,7 +1,9 @@
+const bcrypt = require('bcrypt'); 
 const express = require("express");
 const path = require("path");
 const app = express();
 const port = 3000;
+const salt = bcrypt.genSaltSync(10) ;
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -16,9 +18,10 @@ app.use('/signup', express.static(path.join(__dirname, 'public', 'signup')));
 
 app.get('/login', (req, res) => {
   const { username, password } = req.query;
+  const hashedPassword1 = bcrypt.hashSync(password, salt);
   const user = {
     username : username,
-    password : password
+    password : hashedPassword1
   }
   database.authenticate(user)
   .then((result) => {
@@ -34,9 +37,10 @@ app.get('/login', (req, res) => {
 
 app.get('/submitSignup', (req, res) => {
   const { username, password } = req.query;
+  const hashedPassword2 = bcrypt.hashSync(password, salt);
   const user = {
     username : username,
-    password : password
+    password : hashedPassword2
   }
   database.signup(user)
   .then((result) => {
