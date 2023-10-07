@@ -16,8 +16,8 @@ const database = require("./database/database.js");
 app.use('/', express.static(path.join(__dirname, 'public', 'login')));
 app.use('/signup', express.static(path.join(__dirname, 'public', 'signup')));
 
-app.get('/login', (req, res) => {
-  const { username, password } = req.query;
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
   const hashedPassword1 = bcrypt.hashSync(password, salt);
   const user = {
     username : username,
