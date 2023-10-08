@@ -3,7 +3,8 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const port = 3000;
-const salt = bcrypt.genSaltSync(10) ;
+const rounds =10;
+const salt = bcrypt.genSaltSync(rounds) ;
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -35,8 +36,8 @@ app.post('/login', (req, res) => {
   )
 });
 
-app.get('/submitSignup', (req, res) => {
-  const { username, password } = req.query;
+app.post('/submitSignup', (req, res) => {
+  const { username, password } = req.body;
   const hashedPassword2 = bcrypt.hashSync(password, salt);
   const user = {
     username : username,
