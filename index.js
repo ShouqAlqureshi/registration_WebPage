@@ -58,3 +58,38 @@ app.post('/submitSignup', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
+
+
+const fetch = require('node-fetch');
+const recaptchaSecretKey = '6LfyCJMoAAAAAJKO01Y8KZZbIWgyECENVqnTyHRn';
+
+// endpoint for handling the reCAPTCHA verification
+app.post('/verify-recaptcha', async (req, res) => {
+  const recaptchaResponse = req.body['g-recaptcha-response'];
+
+  //POST request to Google's reCAPTCHA verification endpoint
+  const verificationURL = 'https://www.google.com/recaptcha/api/siteverify';
+  const params = new URLSearchParams({
+    secret: recaptchaSecretKey,
+    response: recaptchaResponse,
+  });
+
+  const response = await fetch(verificationURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: params,
+  });
+
+  const data = await response.json();
+
+  if (data.success) {
+    res.json(result);
+    res.status(200).json({ message: 'reCAPTCHA verification successful' });
+  } else {
+    res.redirect('/?error=true');
+    res.status(400).json({ error: 'reCAPTCHA verification failed' });
+  }
+});
+

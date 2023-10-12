@@ -5,49 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up Page</title>
     <link rel="stylesheet" href="./style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("signup-form").submit();
+        }
+    </script>
 </head>
 <body>
 
-    <header class="site-header">
-        <h1>Welcome to the SWE 314 Login Page</h1>
-    </header>
+<header class="site-header">
+    <h1>Welcome to the SWE 314 Login Page</h1>
+</header>
 
 <div class="signup-container">
     <div class="error-message" hidden>
         Error: username already exists
      </div>
     <h2>Sign Up</h2>
-    <form action="/submitSignup" method="POST">
+    <form action="/submitSignup" method="POST" id="signup-form">
         <div class="input-group">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
         </div>
-        
-       
 
         <div class="input-group">
             <label for="password">Password:</label>
             <input type="password" minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="password" name="password" required>
         </div>
-        
-        <div class="btn-group">
-            <button type="submit" class="signup-btn">Sign Up</button>
-            <button type="reset" class="clear-btn">Clear</button>
+
+
+        <div class="password-requirements">
+            Password must meet the following requirements:
+            <ul>
+                <li>At least 8 characters long</li>
+                <li>Contain at least one uppercase letter</li>
+                <li>Contain at least one lowercase letter</li>
+                <li>Contain at least one digit </li>
+            </ul>
         </div>
+
+        <div class="btn-group">
+            <button type="reset" class="clear-btn">Clear</button>
+            <button type="submit" class="signup-btn">Sign Up</button>
+
+        </div>
+
+        <div class="g-recaptcha" data-sitekey="6LfyCJMoAAAAAFAmX9fuJoxe16oj4QB_E-XT2PKW" data-callback="onSubmit"></div>
+
     </form>
 </div>
 
 <script>
-  
-    // get the error from the url
-       const urlParams = new URLSearchParams(window.location.search);
-       const error = urlParams.get('error');
-       if(error){
-           document.querySelector('.error-message').style.display = 'block';
-       }
-   
-   
-   </script>
-
-</body>
-</html>
+    
+    // Get the error from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = url
